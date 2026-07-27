@@ -27,6 +27,11 @@ and reconcile any configuration changes.`,
 			GitRemote:    Viper.GetString("git.remote"),
 			GitLocalPath: Viper.GetString("git.local_path"),
 			Verbose:      Viper.GetBool("verbose"),
+			Compose: config.ComposeConfig{
+				Files:       Viper.GetStringSlice("compose.files"),
+				ProjectName: Viper.GetString("compose.project_name"),
+				Build:       Viper.GetBool("compose.build"),
+			},
 		}
 
 		interval, err := time.ParseDuration(Viper.GetString("poll_interval"))

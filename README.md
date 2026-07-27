@@ -23,9 +23,20 @@ git:
   branch: main                                        # default: main
   remote: origin                                      # default: origin
   local_path: /var/lib/lite-gitops/state              # clone destination
+compose:
+  files:                                              # default: [docker-compose.yml]
+    - docker-compose.yml
+  project_name: my-project                            # optional
+  build: false                                        # default: false
 poll_interval: 30s                                    # default: 30s
 verbose: false
 ```
+
+## Docker Compose
+
+When configured, `lite-gitops` automatically deploys Docker Compose projects from the
+synced Git repository. On every new commit, it runs `docker compose pull` followed by
+`docker compose up -d` to apply changes.
 
 ## Build
 

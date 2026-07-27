@@ -5,18 +5,25 @@ import (
 	"log/slog"
 	"time"
 
+	"lite-gitops/pkg/compose"
 	"lite-gitops/pkg/config"
 	"lite-gitops/pkg/git"
 )
 
 type Agent struct {
-	cfg      *config.Config
-	repo     *git.Repo
-	lastHash string
+	cfg           *config.Config
+	repo          *git.Repo
+	composeMgr    *compose.Manager
+	lastHash      string
 }
 
 func New(cfg *config.Config) (*Agent, error) {
-	return &Agent{cfg: cfg}, nil
+	a := &Agent{cfg: cfg}
+	if len(cfg.Compose.Files) > 0 {
+		a.composeMgr = compose.NewManager(cfg.Compose, cfg.GitLocalPath)
+		slog.Info("docker compose mode enabled", "files", cfg.Compose.Files)
+	}
+	return a, nil
 }
 
 func (a *Agent) Run(ctx context.Context) error {
@@ -89,4 +96,11 @@ func (a *Agent) sync() {
 
 func (a *Agent) reconcile(hash string) {
 	slog.Info("reconciling state", "hash", hash)
+
+	if a.composeMgr != nil {
+		if err := a.composeMgr.Deploy(); err != nil {
+			slog.Error("compose deploy failed", "error", err)
+			return
+		}
+	}
 }

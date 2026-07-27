@@ -66,6 +66,9 @@ func initConfig(flags *pflag.FlagSet) error {
 	v.SetDefault("git.branch", "main")
 	v.SetDefault("git.remote", "origin")
 	v.SetDefault("git.local_path", "/var/lib/lite-gitops/state")
+	v.SetDefault("compose.files", []string{"docker-compose.yml"})
+	v.SetDefault("compose.project_name", "")
+	v.SetDefault("compose.build", false)
 	v.SetDefault("poll_interval", "30s")
 	v.SetDefault("verbose", false)
 
