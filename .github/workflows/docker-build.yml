@@ -1,0 +1,30 @@
+name: Build Docker Image
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build and save image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          tags: lite-gitops:latest
+          outputs: type=docker,dest=/tmp/lite-gitops.tar
+
+      - name: Upload image artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: lite-gitops-image
+          path: /tmp/lite-gitops.tar

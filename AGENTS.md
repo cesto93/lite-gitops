@@ -14,6 +14,19 @@ synced repo directory. The compose binary must be available on the system PATH.
 go build -o lite-gitops .
 ```
 
+## Container
+
+`Dockerfile` produces a minimal Alpine image via multi-stage Go build.
+The container bundles docker-cli, docker-compose, git, and openssh so it
+can clone repos and run Compose on the host Docker socket.
+
+`docker-compose.yml` runs the agent with the Docker socket mounted,
+a read-only config mount at `/etc/lite-gitops/config.yaml`, and a
+persistent volume for the Git clone state.
+
+`.github/workflows/docker-build.yml` builds the image on every push to
+`main` or tag `v*` and saves the image tarball as a workflow artifact.
+
 ## Related
 
 - `pkg/compose/compose.go` — Docker Compose deployment logic

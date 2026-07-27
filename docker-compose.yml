@@ -1,0 +1,14 @@
+services:
+  lite-gitops:
+    build: .
+    image: lite-gitops:latest
+    container_name: lite-gitops
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config.yaml:/etc/lite-gitops/config.yaml:ro
+      - lite-gitops-data:/var/lib/lite-gitops
+    command: ["run", "--config", "/etc/lite-gitops/config.yaml"]
+
+volumes:
+  lite-gitops-data:
