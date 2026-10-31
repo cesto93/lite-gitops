@@ -25,6 +25,34 @@ on your `PATH`:
 export PATH="$PATH:$(go env GOPATH)/bin"
 ```
 
+### Docker
+
+Prebuilt multi-arch images (`linux/amd64`, `linux/arm64`) are published to the GitHub
+Container Registry on every push to `main` and on `v*` tags:
+
+```bash
+docker pull ghcr.io/cesto93/lite-gitops:main
+```
+
+The container needs the host Docker socket to deploy Compose projects and a config file
+mounted read-only:
+
+```bash
+docker run -d --name lite-gitops --restart unless-stopped \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v ./config.yaml:/etc/lite-gitops/config.yaml:ro \
+  -v lite-gitops-data:/var/lib/lite-gitops \
+  ghcr.io/cesto93/lite-gitops:main run --config /etc/lite-gitops/config.yaml
+```
+
+Or with Compose, using the `docker-compose.yml` in this repository:
+
+```yaml
+services:
+  lite-gitops:
+    image: ghcr.io/cesto93/lite-gitops:main
+```
+
 ## Usage
 
 ```

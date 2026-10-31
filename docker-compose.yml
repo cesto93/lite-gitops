@@ -1,7 +1,6 @@
 services:
   lite-gitops:
-    build: .
-    image: lite-gitops:latest
+    image: ghcr.io/cesto93/lite-gitops:main
     container_name: lite-gitops
     restart: unless-stopped
     volumes:
