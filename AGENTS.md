@@ -10,8 +10,11 @@ synced repo directory. The compose binary must be available on the system PATH.
 
 ## Build
 
+Module path is `github.com/cesto93/lite-gitops`, so internal imports use that prefix.
+
 ```bash
 go build -o lite-gitops .
+go install .   # installs to $(go env GOPATH)/bin
 ```
 
 ## Container

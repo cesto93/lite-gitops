@@ -5,8 +5,8 @@ import (
 	"log/slog"
 	"time"
 
-	"lite-gitops/pkg/agent"
-	"lite-gitops/pkg/config"
+	"github.com/cesto93/lite-gitops/pkg/agent"
+	"github.com/cesto93/lite-gitops/pkg/config"
 
 	"github.com/spf13/cobra"
 )

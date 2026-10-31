@@ -5,9 +5,9 @@ import (
 	"log/slog"
 	"time"
 
-	"lite-gitops/pkg/compose"
-	"lite-gitops/pkg/config"
-	"lite-gitops/pkg/git"
+	"github.com/cesto93/lite-gitops/pkg/compose"
+	"github.com/cesto93/lite-gitops/pkg/config"
+	"github.com/cesto93/lite-gitops/pkg/git"
 )
 
 type Agent struct {

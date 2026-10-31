@@ -2,6 +2,29 @@
 
 A lightweight GitOps agent written in Go.
 
+## Install
+
+Install straight from the repository (Go 1.26.5 or newer, as declared in `go.mod`):
+
+```bash
+go install github.com/cesto93/lite-gitops@latest
+```
+
+Or install from a local clone:
+
+```bash
+git clone https://github.com/cesto93/lite-gitops
+cd lite-gitops
+go install .
+```
+
+Either way the binary lands in `$(go env GOPATH)/bin`. Make sure that directory is
+on your `PATH`:
+
+```bash
+export PATH="$PATH:$(go env GOPATH)/bin"
+```
+
 ## Usage
 
 ```

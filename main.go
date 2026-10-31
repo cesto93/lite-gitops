@@ -1,6 +1,6 @@
 package main
 
-import "lite-gitops/cmd"
+import "github.com/cesto93/lite-gitops/cmd"
 
 func main() {
 	cmd.Execute()

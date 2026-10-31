@@ -1,4 +1,4 @@
-module lite-gitops
+module github.com/cesto93/lite-gitops
 
 go 1.26.5
 

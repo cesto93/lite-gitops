@@ -7,7 +7,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"lite-gitops/pkg/config"
+	"github.com/cesto93/lite-gitops/pkg/config"
 )
 
 type Manager struct {
