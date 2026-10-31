@@ -3,6 +3,9 @@ services:
     image: ghcr.io/cesto93/lite-gitops:main
     container_name: lite-gitops
     restart: unless-stopped
+    environment:
+      - LITE_GITOPS_GIT_USERNAME
+      - LITE_GITOPS_GIT_TOKEN
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./config.yaml:/etc/lite-gitops/config.yaml:ro

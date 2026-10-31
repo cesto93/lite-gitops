@@ -3,6 +3,7 @@ package cmd
 import (
 	"log/slog"
 	"os"
+	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -54,6 +55,8 @@ func initConfig(flags *pflag.FlagSet) error {
 		v.SetConfigType("yaml")
 	}
 
+	v.SetEnvPrefix("LITE_GITOPS")
+	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	v.AutomaticEnv()
 
 	if err := v.ReadInConfig(); err != nil {
@@ -66,6 +69,8 @@ func initConfig(flags *pflag.FlagSet) error {
 	v.SetDefault("git.branch", "main")
 	v.SetDefault("git.remote", "origin")
 	v.SetDefault("git.local_path", "/var/lib/lite-gitops/state")
+	v.SetDefault("git.username", "")
+	v.SetDefault("git.token", "")
 	v.SetDefault("compose.files", []string{"docker-compose.yml"})
 	v.SetDefault("compose.project_name", "")
 	v.SetDefault("compose.build", false)

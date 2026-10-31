@@ -8,6 +8,14 @@ Docker Compose is supported natively. When `compose.files` is configured in the 
 the `reconcile()` method runs `docker compose pull && docker compose up -d` against the
 synced repo directory. The compose binary must be available on the system PATH.
 
+## Private repositories
+
+Private GitHub repositories are supported over HTTPS via `git.username` + `git.token`
+in the config, or the `LITE_GITOPS_GIT_USERNAME` / `LITE_GITOPS_GIT_TOKEN` environment
+variables. `pkg/git/git.go` builds a `transport/http.BasicAuth` and passes it to both
+clone and pull. When only a token is set, the username defaults to `x-access-token`.
+SSH URLs are not authenticated by this mechanism.
+
 ## Build
 
 Module path is `github.com/cesto93/lite-gitops`, so internal imports use that prefix.
@@ -34,4 +42,5 @@ persistent volume for the Git clone state.
 
 - `pkg/compose/compose.go` — Docker Compose deployment logic
 - `pkg/agent/agent.go` — Agent loop and reconcile entry point
-- `pkg/config/config.go` — Config struct including ComposeConfig
+- `pkg/config/config.go` — Config struct including ComposeConfig and Git credentials
+- `pkg/git/git.go` — Clone/pull with HTTPS token authentication

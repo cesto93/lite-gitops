@@ -13,6 +13,8 @@ type Config struct {
 	GitBranch    string
 	GitRemote    string
 	GitLocalPath string
+	GitUsername  string
+	GitToken     string
 	PollInterval time.Duration
 	Verbose      bool
 	Compose      ComposeConfig

@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 	"log/slog"
+	"strings"
 	"time"
 
 	"github.com/cesto93/lite-gitops/pkg/agent"
@@ -26,6 +27,8 @@ and reconcile any configuration changes.`,
 			GitBranch:    Viper.GetString("git.branch"),
 			GitRemote:    Viper.GetString("git.remote"),
 			GitLocalPath: Viper.GetString("git.local_path"),
+			GitUsername:  strings.TrimSpace(Viper.GetString("git.username")),
+			GitToken:     strings.TrimSpace(Viper.GetString("git.token")),
 			Verbose:      Viper.GetBool("verbose"),
 			Compose: config.ComposeConfig{
 				Files:       Viper.GetStringSlice("compose.files"),

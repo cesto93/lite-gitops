@@ -11,10 +11,10 @@ import (
 )
 
 type Agent struct {
-	cfg           *config.Config
-	repo          *git.Repo
-	composeMgr    *compose.Manager
-	lastHash      string
+	cfg        *config.Config
+	repo       *git.Repo
+	composeMgr *compose.Manager
+	lastHash   string
 }
 
 func New(cfg *config.Config) (*Agent, error) {
@@ -63,7 +63,11 @@ func (a *Agent) Run(ctx context.Context) error {
 }
 
 func (a *Agent) ensureRepo() error {
-	r, err := git.OpenOrClone(a.cfg.GitRepo, a.cfg.GitLocalPath, a.cfg.GitBranch)
+	auth := git.Auth{
+		Username: a.cfg.GitUsername,
+		Token:    a.cfg.GitToken,
+	}
+	r, err := git.OpenOrClone(a.cfg.GitRepo, a.cfg.GitLocalPath, a.cfg.GitBranch, auth)
 	if err != nil {
 		return err
 	}

@@ -74,6 +74,8 @@ git:
   branch: main                                        # default: main
   remote: origin                                      # default: origin
   local_path: /var/lib/lite-gitops/state              # clone destination
+  username: my-github-user                            # optional, private repos
+  token: ghp_xxxxxxxxxxxxxxxxxxxx                     # optional, private repos
 compose:
   files:                                              # default: [docker-compose.yml]
     - docker-compose.yml
@@ -82,6 +84,49 @@ compose:
 poll_interval: 30s                                    # default: 30s
 verbose: false
 ```
+
+### Private repositories
+
+Cloning and pulling private GitHub repositories over HTTPS works with a personal
+access token (classic or fine-grained). Set `git.username` to your GitHub username
+and `git.token` to the token. If `git.username` is omitted, `x-access-token` is used,
+which is the convention for GitHub App installation tokens.
+
+The repository URL must use HTTPS, not SSH:
+
+```yaml
+git:
+  repository: https://github.com/org/private-configs.git
+  username: my-github-user
+  token: ghp_xxxxxxxxxxxxxxxxxxxx
+```
+
+Prefer providing the token through the environment instead of committing it to the
+config file. Every option can be overridden with an environment variable prefixed by
+`LITE_GITOPS_`, using underscores instead of dots:
+
+```bash
+export LITE_GITOPS_GIT_USERNAME=my-github-user
+export LITE_GITOPS_GIT_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxx
+lite-gitops run --config /etc/lite-gitops/config.yaml
+```
+
+With Docker:
+
+```bash
+docker run -d --name lite-gitops --restart unless-stopped \
+  -e LITE_GITOPS_GIT_USERNAME=my-github-user \
+  -e LITE_GITOPS_GIT_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxx \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v ./config.yaml:/etc/lite-gitops/config.yaml:ro \
+  -v lite-gitops-data:/var/lib/lite-gitops \
+  ghcr.io/cesto93/lite-gitops:main run --config /etc/lite-gitops/config.yaml
+```
+
+Or with Compose, export the two variables in your shell before running `docker compose up`;
+`docker-compose.yml` forwards them to the container when present.
+
+The token only needs read access to the repository contents. The agent never logs it.
 
 ## Docker Compose
 
